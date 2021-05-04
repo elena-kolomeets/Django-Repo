@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+    body {
+      max-width: 500px;
+      margin: auto;
+      margin-top: 20px;
+    }
+    h2 {
+      color: Teal;
+      text-align: center;
+    }
+    .btn {
+      text-align: center;
+      display: block;
+      margin-top: 5px;
+    }
+    @media (max-width: 300px) {body {max-width: 200px;}}
+    @media (max-width: 500px) {body {max-width: 250px;}}
+    </style>
+    <!-- Add favicons from https://favicon.io/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'image_repo/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'image_repo/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'image_repo/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'image_repo/site.webmanifest' %}">
+
+    <title>Sign Up</title>
+</head>
+<body>
+    <h2>Sign up</h2>
+    <br>
+    <!-- display error message when error occurs -->
+    <h4 style="color:red"> {{ error }} </h4>
+    <!-- built-in sign up form -->
+    <form method="post">
+        {% csrf_token %} <!-- token for secure transfer of user data -->
+        {{ form.as_p }} <!-- form shown as separate paragraphs -->
+        <div class="btn">
+            <input type="submit" value="Sign up">
+        </div>
+    </form>
+    <div class="btn">
+        <a href="{% url 'homepage' %}">
+            <input type="submit" value="Home">
+        </a>
+    </div>
+    <br><br>
+</body>
+</html>

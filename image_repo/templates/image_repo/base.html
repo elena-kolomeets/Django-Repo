@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+    .top {
+      max-width: 400px;
+      margin: auto;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .sign{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    h2 {color: Teal}
+    h5 {font-weight: normal;}
+    @media (max-width: 300px) {.top {max-width: 250px;}}
+    @media (max-width: 500px) {.top {max-width: 300px;}}
+    </style>
+    <!-- Add favicons from https://favicon.io/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'image_repo/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'image_repo/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'image_repo/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'image_repo/site.webmanifest' %}">
+
+    <title>Image repo</title>
+</head>
+<body>
+    <div class="top">
+        <h2>Image Repo</h2>
+        <!-- checking if user is signed in -->
+        {% if user.is_authenticated %}
+        <div class="sign">
+            <p>Logged in as <i>{{ user.username }}.</i></p>
+            <form action="{% url 'signout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Sign out" style="border: none; background-color: White; font-weight: 500;">
+            </form>
+        </div>
+        <!-- if not signed in -->
+        {% else %}
+        <br>
+        <div class="sign">
+            <a href="{% url 'signup' %}">
+                <input type="submit" value="Sign up">
+            </a>
+            <a href="{% url 'signin' %}" style="margin-left:10px">
+                <input type="submit" value="Sign in">
+            </a>
+        </div>
+        <br><br><br>
+        <h5>
+            <p>This so much more than a simple storage.</p>
+            <p>
+                Image Repo analyzes your images and returns <i>description</i>, <i>tags</i>
+                and <i>colors</i> which are stored and retrieved along with the image.
+            </p>
+            <p>Who don't you try it yourself?</p>
+        </h5>
+        {% endif %}
+    </div>
+    <br><br>
+    <!-- insert block from other template -->
+        {% block content %}
+        {% endblock %}
+</body>
+</html>
