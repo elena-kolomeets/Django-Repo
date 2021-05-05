@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% extends 'image_repo/base.html' %}
+    <title>Image Repo</title>
+</head>
+<body>
+  {% block content %}
+  {% if user.is_authenticated %}
+  <div style="text-align: center">
+    <a href="{% url 'repo' %}"><input type="submit" value="My Image Repo"></a>
+  </div>
+  {% endif %}
+  {% endblock %}
+</body>
+</html>

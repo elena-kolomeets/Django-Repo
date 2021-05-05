@@ -5,29 +5,72 @@
     <style>
     .block {
       max-width: 500;
+      margin: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       animation-name: appear;
       animation-duration: 2s;
     }
-    @media (max-width: 300px) {.block {max-width: 200px;}}
-    @media (max-width: 500px) {.block {max-width: 250px;}}
+    .upld {
+      max-width: 500;
+      margin: auto;
+      text-align: center;
+    }
+    .txt-blk {
+      max-width: 400px;
+      text-align: center;
+    }
+    @media (max-width: 300px) {
+      .block {max-width: 200px;}
+      .upld {max-width: 200px;}
+      img {max-width: 200px;}
+      .txt-blk {max-width: 200px;}
+    }
+    @media (max-width: 500px) {
+      .block {max-width: 270px;}
+      .upld {max-width: 270px;}
+      img {max-width: 270px;}
+      .txt-blk {max-width: 270px;}
+    }
+    @media only screen and (device-width: 768px) {
+      .block {max-width: 500px;}
+      .upld {max-width: 500px;}
+      img {max-width: 400px;}
+      .txt-blk {max-width: 400px;}
+      }
     @keyframes appear {
     from {opacity: 0;}
     to {opacity: 100%;}
     </style>
     {% extends 'image_repo/base.html' %}
-    <title>Image Repository</title>
+    <title>Image Repo</title>
 </head>
 <body>
   {% block content %}
-  <br>
-  <!-- upload button goes here -->
+  <!-- upload area -->
+  <div class="upld">
+      <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}  <!-- token for secure transfer of user data -->
+          {{ form.as_p }}   <!-- form shown as separate paragraphs -->
+          <!-- display error message when error occurs -->
+          <h5 style="color: FireBrick"> {{ error }} </h5>
+          <input type="submit" value="Upload">
+      </form>
+  </div>
   <br>
   <div class="block">
-      <p>your image repo your image repo your image repo your image repo your image repo your image repo</p>
-      <p>some more info some more info some more info some more info some more info some more info some more info</p>
+      {% for image in images %}
+      <div>
+          <img src="{{ image.image.url }}" alt="The Image should be here" width="400"/>
+          <div class="txt-blk">
+              <p>{{ image.description }}</p>
+              <p>{{ image.tags }}</p>
+              <p>{{ image.colors }}</p>
+          </div>
+          <br><br>
+      </div>
+      {% endfor %}
   </div>
   {% endblock %}
 </body>

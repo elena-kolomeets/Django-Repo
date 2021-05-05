@@ -147,10 +147,10 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 # The AWS region to connect to.
 AWS_S3_REGION_NAME = 'us-east-2'
-
-
 # By default files with the same name will overwrite each other. Set this to False to have extra characters appended.
 AWS_S3_FILE_OVERWRITE = False
+# The number of seconds that a generated URL is valid for.
+AWS_QUERYSTRING_EXPIRE = 1800
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

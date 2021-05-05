@@ -3,7 +3,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
@@ -29,13 +29,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'image_repo/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'image_repo/site.webmanifest' %}">
 
-    <title>Image repo</title>
+    <title>Image Repo</title>
 </head>
 <body>
     <div class="top">
-        <h2>Image Repo</h2>
         <!-- checking if user is signed in -->
         {% if user.is_authenticated %}
+        <h2>Image Repo</h2>
         <div class="sign">
             <p>Logged in as <i>{{ user.username }}.</i></p>
             <form action="{% url 'signout' %}" method="post">
@@ -45,6 +45,7 @@
         </div>
         <!-- if not signed in -->
         {% else %}
+        <h2>Image Repo</h2>
         <br>
         <div class="sign">
             <a href="{% url 'signup' %}">
@@ -66,7 +67,7 @@
         {% endif %}
     </div>
     <br><br>
-    <!-- insert block from other template -->
+    <!-- insert block from another template -->
         {% block content %}
         {% endblock %}
 </body>

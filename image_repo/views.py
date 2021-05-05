@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password, ValidationError
@@ -6,9 +7,12 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 
+from .forms import ImageForm
+from .models import Image
+
 
 def homepage(request):
-    return render(request, 'image_repo/base.html')
+    return render(request, 'image_repo/homepage.html')
 
 
 def user_sign_up(request):
@@ -59,5 +63,24 @@ def user_sign_out(request):
         return redirect('homepage')
 
 
+@login_required(login_url='homepage')
 def repo(request):
-    return render(request, 'image_repo/repo.html')
+    # open sign up page
+    if request.method == 'GET':
+        # pass all user's images and data to the template
+        images = Image.objects.filter(user=request.user).order_by('id').reverse()
+        return render(request, 'image_repo/repo.html', {'form': ImageForm(), 'images': images})
+    else:  # upload an image (POST method)
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                # get the uploaded image from the form and save all data to the database
+                file = form.cleaned_data.get('image')
+                image_object = Image.objects.create(image=file, user=request.user)
+                image_object.save()
+                # pass all user's images and data to the template
+                images = Image.objects.filter(user=request.user).order_by('id').reverse()
+                return render(request, 'image_repo/repo.html', {'images': images})
+            except:
+                return render(request, 'image_repo/repo.html', {'form': ImageForm(),
+                                                                'error': 'Some error occurred. Kindly try again.'})
