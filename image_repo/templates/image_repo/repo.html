@@ -21,6 +21,13 @@
       max-width: 400px;
       text-align: center;
     }
+    span {
+      height: 25px;
+      width: 25px;
+      border-radius: 50%;
+      border: 1px solid grey;
+      display: inline-block;
+    }
     @media (max-width: 300px) {
       .block {max-width: 200px;}
       .upld {max-width: 200px;}
@@ -55,18 +62,32 @@
           {{ form.as_p }}   <!-- form shown as separate paragraphs -->
           <!-- display error message when error occurs -->
           <h5 style="color: FireBrick"> {{ error }} </h5>
+          {% if form %}
           <input type="submit" value="Upload">
+          {% else %}
+          <h5 style="color: Gray"> You've reached your upload limit. </h5>
+          {% endif %}
       </form>
   </div>
   <br>
+  <!-- load our custom split filter to use with colors-->
+  {% load image_repo_tags %}
   <div class="block">
       {% for image in images %}
       <div>
           <img src="{{ image.image.url }}" alt="The Image should be here" width="400"/>
+          <p></p>
           <div class="txt-blk">
               <p>{{ image.description }}</p>
-              <p>{{ image.tags }}</p>
-              <p>{{ image.colors }}</p>
+              <i><p>{{ image.tags }}</p></i>
+              <!-- show circles with dominant colors -->
+              <div class="sign">
+              {% for color in image.colors|split:" " %}
+                  {% if color %}
+                <p><span aria-label="{{ color }}" style="background-color:{{ color }}; margin-left:10px"></span></p>
+                  {% endif %}
+              {% endfor %}
+              </div>
           </div>
           <br><br>
       </div>
