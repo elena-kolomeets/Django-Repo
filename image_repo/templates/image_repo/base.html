@@ -38,7 +38,7 @@
         <h2>Image Repo</h2>
         <div class="sign">
             <p>Logged in as <i>{{ user.username }}.</i></p>
-            <form action="{% url 'signout' %}" method="post">
+            <form action="{% url 'signout' %}" method="post" style="margin-top: -1px;">
                 {% csrf_token %}
                 <input type="submit" value="Sign out" style="border: none; background-color: White; font-weight: 500;">
             </form>
