@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+import sys
 
 import dj_database_url
 import django_heroku
@@ -31,6 +32,8 @@ SECRET_KEY = os.environ['IMG_REPO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+if sys.argv[1] == 'test':
+    DEBUG = True
 
 ALLOWED_HOSTS = ['.herokuapp.com']
 
@@ -96,8 +99,9 @@ DATABASES = {
     }
 }
 
-db_heroku = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DATABASES['default'].update(db_heroku)
+if not DEBUG:
+    db_heroku = dj_database_url.config(conn_max_age=600, ssl_require=True)
+    DATABASES['default'].update(db_heroku)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
