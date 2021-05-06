@@ -51,9 +51,58 @@ class ImageRepoTestCase(TestCase):
         self.assertTrue(form.is_valid())
 
     # VIEWS
-    #sign in
+    # sign up
+    def test_sign_up_success_view(self):
+        """Test if user signed up successfully (views.user_sign_up())"""
+        self.client.logout()
+        # use valid username and password
+        resp = self.client.post(reverse('signup'), {'username': 'newuser', 'password1': 'Newuserpass',
+                                                    'password2': 'Newuserpass'})
+        # make sure user is redirected to repo
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, reverse('repo'))
 
-    #sign up
+    def test_sign_up_fail_view(self):
+        """Test if user couldn't sign up (views.user_sign_up())"""
+        self.client.logout()
+        # use invalid password (too short)
+        resp = self.client.post(reverse('signup'), {'username': 'newuser', 'password1': 'pass',
+                                                    'password2': 'pass'})
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(resp.context['error'], 'Invalid username or password. Please choose another one.')
+        # use invalid username (with '!')
+        resp = self.client.post(reverse('signup'), {'username': 'newuser!', 'password1': 'Password',
+                                                    'password2': 'Password'})
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(resp.context['error'], 'Invalid username or password. Please choose another one.')
+        # user different passwords
+        resp = self.client.post(reverse('signup'), {'username': 'newuser', 'password1': 'pass1',
+                                                    'password2': 'pass2'})
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(resp.context['error'], 'Passwords do not match.')
+        # user already exists
+        resp = self.client.post(reverse('signup'), {'username': 'user1', 'password1': 'user1Pass',
+                                                    'password2': 'user1Pass'})
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(resp.context['error'], 'Username is already used. Please choose another one.')
+
+    # sign in
+    def test_sign_in_success_view(self):
+        """Test if user signed in successfully (views.user_sign_in())"""
+        self.client.logout()
+        # existing user credentials (from setUp())
+        resp = self.client.post(reverse('signin'), {'username': 'user1', 'password': 'Password'})
+        # make sure user is redirected to repo
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, reverse('repo'))
+
+    def test_sign_in_fail_view(self):
+        """Test if user couldn't sign in (views.user_sign_in())"""
+        self.client.logout()
+        # non existing user credentials
+        resp = self.client.post(reverse('signin'), {'username': 'someusername', 'password': 'Password'})
+        self.assertEqual(resp.status_code, 401)
+        self.assertEqual(resp.context['error'], 'Given username or password is incorrect.')
 
     # repo
     def test_redirect_unauth_view(self):
@@ -69,17 +118,22 @@ class ImageRepoTestCase(TestCase):
         self.assertTemplateUsed(resp, 'image_repo/repo.html')
 
     def test_auth_user_repo(self):
-        """Test if user only sees their images"""
+        """Test if user only sees their images (views.repo())"""
         # user1 uploads an image
         new_img = Image.objects.create(image=self.upload_image, user=self.user1)
         new_img.save()
-        # check that user 1 sees his image
-
+        # check that user1 sees his data
+        resp = self.client.get(reverse('repo'))
+        # response context value of key 'images' (sent in views.repo())
+        # should be the same as query set of user1
+        self.assertQuerysetEqual(resp.context['images'], Image.objects.filter(user=self.user1))
         # create a second user who has no images
+        self.client.logout()
         self.user2 = User.objects.create_user(username='user2', password='passworD')
         self.client.login(username='user2', password='passworD')
-        # check that user 2 sees nothing
-
+        # check that user2 sees only their data
+        resp = self.client.get(reverse('repo'))
+        self.assertQuerysetEqual(resp.context['images'], Image.objects.filter(user=self.user2))
 
     def test_image_upload(self):
         """Test if image gets uploaded in views.repo()"""

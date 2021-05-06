@@ -31,13 +31,13 @@ def user_sign_up(request):
                 return redirect('repo')
             except IntegrityError:
                 return render(request, 'image_repo/user_sign_up.html', {'form': UserCreationForm(),
-                                                    'error': 'Username is already used. Please choose another one.'})
+                                        'error': 'Username is already used. Please choose another one.'}, status=401)
             except ValidationError:
                 return render(request, 'image_repo/user_sign_up.html', {'form': UserCreationForm(),
-                                                'error': 'Invalid username or password. Please choose another one.'})
+                                    'error': 'Invalid username or password. Please choose another one.'}, status=401)
         else:
             return render(request, 'image_repo/user_sign_up.html', {'form': UserCreationForm(),
-                                                              'error': 'Passwords do not match'})
+                                                              'error': 'Passwords do not match.'}, status=401)
 
 
 def user_sign_in(request):
@@ -52,7 +52,7 @@ def user_sign_in(request):
             return redirect('repo')
         else:
             return render(request, 'image_repo/user_sign_in.html', {'form': AuthenticationForm(),
-                                                'error': 'Given username or password is incorrect.'})
+                                                'error': 'Given username or password is incorrect.'}, status=401)
 
 
 def user_sign_out(request):
