@@ -80,7 +80,7 @@ def repo(request):
                 image_object.save()
                 # pass all user's images and data to the template
                 images = Image.objects.filter(user=request.user).order_by('id').reverse()
-                return render(request, 'image_repo/repo.html', {'images': images})
+                return render(request, 'image_repo/repo.html', {'images': images, 'form': ImageForm()})
             except:
                 return render(request, 'image_repo/repo.html', {'form': ImageForm(),
                                                                 'error': 'Some error occurred. Kindly try again.'})
