@@ -10,7 +10,6 @@ from django.urls import reverse
 
 from .forms import ImageForm
 from .models import Image
-from .views import repo
 
 
 class ImageRepoTestCase(TestCase):
