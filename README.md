@@ -1,13 +1,13 @@
 ## Image Repo
 This image repository app was built for Shopify Backend Developer Intern Challenge.
 ####
-<img src="https://github.com/elena-kolomeets/Django-Repo/blob/master/image-repo.PNG" width="400"/>
+<img src="https://github.com/elena-kolomeets/Django-Repo/blob/master/image-repo.PNG" width="500"/>
 
 ### What is it?
 It's a special image storage. Apart from storing your images, it also analyzes them to extract image *description*, 
 *tags* and *main colors*. This data can be used to ensure accessibility and enable quick searching and sorting of contents. 
 ### How to use it?
-1. Open [Image Repo](https://image-repo-elena.herokuapp.com/) on desktop or mobile device.
+1. Open <a href="https://image-repo-elena.herokuapp.com/" target="_blank">Image Repo</a> on desktop or mobile device.
 2. Sign up, or sign in if you already have an account.
 3. Upload an image. There is currently a limit of 5 uploads.
 4. You will see your images, along with extracted information, sorted from new to old ones. 
@@ -42,7 +42,7 @@ but Postgres required user permission to create a database (a temporary one for 
 didn't allow altering user's permissions. Since both tools were already in use and no quick workarounds were found, 
 it was decided to focus on development and run tests locally.
 ####
-<img src="https://github.com/elena-kolomeets/Django-Repo/blob/master/tests.PNG" width="300"/>
+<img src="https://github.com/elena-kolomeets/Django-Repo/blob/master/tests.PNG" width="500"/>
 
 #### Deployment
 The app was deployed from GitHub directly to Heroku using Heroku Pipelines with automated deployment during development.
@@ -74,7 +74,7 @@ AZURE_CV_ENDPOINT=your-azure-computer-vision-endpoint
 ```
 * obviously you'll need to have these resources to use them, so go ahead and 
   * create an S3 bucket and user 
-  with [right permissions](https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#iam-policy); 
+  with <a href="https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#iam-policy">right permissions</a>; 
   * create a PostgreSQL database and user with permission to create databases (in psql: `ALTER USER <username> CREATEDB;`);
   * create a Computer Vision resource in Azure Portal.
 * in `image_repo_project/settings.py` set DEBUG to `False` and make other necessary settings changes 
