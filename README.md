@@ -17,6 +17,7 @@ It's a special image storage. Apart from storing your images, it also analyzes t
 ####
 <img src="https://github.com/elena-kolomeets/Django-Repo/blob/master/image-repo.gif" width="500"/>
 
+You can check the demo account with username *user* and password *userPass* before creating your own.
 ### How does it work?
 * Accounts are created if valid username and password are given. Sign-up page provides hints for choosing credentials
   and error messages when needed.
@@ -57,7 +58,7 @@ There is always room for improvement. Here is what could be done in the future:
 * resize big images to get over Azure API limits (but store original ones);
 * enable sign-in with identity providers like Google or Facebook (OAuth 2.0 flow);
 * increase test coverage and automate tests.
-### Bonus for developers
+### For developers
 To run the app locally and make changes, follow these steps:
 * in a terminal open in a new folder run `git clone https://github.com/elena-kolomeets/Django-Repo.git` to get the source code;
 * make sure you have Python 3.8 or later version;
