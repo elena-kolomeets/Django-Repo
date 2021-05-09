@@ -62,7 +62,7 @@ There is always room for improvement. Here is what could be done in the future:
 To run the app locally and make changes, follow these steps:
 * in a terminal open in a new folder run `git clone https://github.com/elena-kolomeets/Django-Repo.git` to get the source code;
 * make sure you have Python 3.8 or later version;
-* go to the project folder and install dependencies with `pip install requirement.txt`
+* go to the project folder, create virtual environment and install dependencies with `pip install requirement.txt`
 * add `.env` file in `image_repo_project` folder (that contains `settings.py`) with the following contents: 
 ```
 IMG_REPO_SECRET_KEY=your-django-secret-key
